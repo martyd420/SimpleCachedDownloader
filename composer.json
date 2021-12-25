@@ -1,0 +1,23 @@
+{
+    "name": "martyd420/simple-downloader",
+    "type": "library",
+    "version": "1.0.0",
+    "license": "GPL-1.0-or-later",
+    "require": {
+        "php": ">=7.4.13",
+        "ext-curl": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Martyd420\\SimpleCachedDownloader\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Martyd420",
+            "email": "composer@pcdr.cz"
+        }
+    ],
+    "minimum-stability": "stable"
+
+}
