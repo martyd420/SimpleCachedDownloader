@@ -3,11 +3,12 @@
 namespace Martyd420\SimpleCachedDownloader;
 
 
+use Martyd420\SimpleCachedDownloader\Exceptions\CacheNotWriteableException;
+use Martyd420\SimpleCachedDownloader\Exceptions\ConnectionErrorException;
+
 class SimpleCachedDownloader
 {
-
     private string $cache_dir;
-
     private $curl;
 
 
@@ -17,8 +18,7 @@ class SimpleCachedDownloader
      */
     public function __construct(string $cache_dir)
     {
-        $this->cache_dir = realpath($cache_dir) . '/';
-        if (!is_writeable($this->cache_dir)) die("\n cache_dir is not writeable \n");
+        $this->cache_dir = realpath($cache_dir) . DIRECTORY_SEPARATOR;
 
         $this->curl = curl_init();
         curl_setopt($this->curl, CURLOPT_USERAGENT,         'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36');
@@ -31,7 +31,7 @@ class SimpleCachedDownloader
 
     public function __destruct()
     {
-        curl_close($this->curl);
+        @curl_close($this->curl);
     }
 
 
@@ -55,24 +55,32 @@ class SimpleCachedDownloader
      * @param $sleep
      * @return string
      * @throws ConnectionErrorException
+     * @throws CacheNotWriteableException
      */
     private function curl_get($url, $max_age, $sleep): string
     {
+        if (!is_dir($this->cache_dir) || !is_writeable($this->cache_dir)) {
+            throw new CacheNotWriteableException('Permission denied in ' . $this->cache_dir);
+        }
+
         $cache_file = $this->cache_dir . 'scd_' . md5($url) . '.html';
 
         if (file_exists($cache_file) && filemtime($cache_file) > (time() - $max_age)) {
             $data = file_get_contents($cache_file);
         } else {
-            curl_setopt($this->curl, CURLOPT_URL ,$url);
+            curl_setopt($this->curl, CURLOPT_URL, $url);
             $response       = curl_exec($this->curl);
             $header_size    = curl_getinfo($this->curl, CURLINFO_HEADER_SIZE);
             $header         = substr($response, 0, $header_size);
             $data           = substr($response, $header_size);
+
             if (empty($data) || empty($header)) {
                 throw new ConnectionErrorException('Failed to download data');
             }
+
             file_put_contents($cache_file, $data);
             file_put_contents($cache_file . '.txt', $header);
+
             sleep($sleep);
         }
 
@@ -81,4 +89,3 @@ class SimpleCachedDownloader
 
 
 }
-

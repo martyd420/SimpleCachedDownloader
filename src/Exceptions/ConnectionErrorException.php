@@ -1,6 +1,6 @@
 <?php
 
-namespace Martyd420\SimpleCachedDownloader;
+namespace Martyd420\SimpleCachedDownloader\Exceptions;
 
 use Exception;
 
