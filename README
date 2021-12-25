@@ -1,0 +1,8 @@
+### Simple cached downloader class
+I am testing github...
+
+# install:
+composer require martyd420/simple-downloader
+
+# use:
+$data = $downloader->download(string $url, int $max_age = 86400, int $sleep = 0);
