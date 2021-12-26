@@ -9,6 +9,7 @@ $base_path = dirname(__FILE__);
 $cache_dir = $base_path . '/cache/';
 
 require_once $base_path . '/../src/SimpleCachedDownloader.php';
+require_once $base_path . '/../src/DownloadResult.php';
 require_once $base_path . '/../src/Exceptions/CacheNotWriteableException.php';
 require_once $base_path . '/../src/Exceptions/ConnectionErrorException.php';
 
@@ -16,17 +17,21 @@ require_once $base_path . '/../src/Exceptions/ConnectionErrorException.php';
 $downloader = new SimpleCachedDownloader($cache_dir);
 
 try {
-    $data = $downloader->download('https://github.com/martyd420/SimpleCachedDownloader');
+    $result = $downloader->download('https://github.com/martyd420/SimpleCachedDownloader');
 } catch (ConnectionErrorException $e) {
     pln('ConnectionErrorException: ' . $e->getMessage());
-    $data = null;
+    $result = null;
 } catch (CacheNotWriteableException $e) {
     pln ('CacheNotWriteableException: ') . $e->getMessage();
-    $data = null;
+    $result = null;
 }
 
 
-pln ('Downloaded ' . round(strlen($data) / 1024, 1) . ' KB');
+pln ('Downloaded ' . round(strlen($result) / 1024, 1) . ' KB');
+
+pln('Headers: ');
+print_r($result->getHeaders());
+
 
 
 
