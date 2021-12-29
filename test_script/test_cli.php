@@ -12,12 +12,15 @@ require_once $base_path . '/../src/SimpleCachedDownloader.php';
 require_once $base_path . '/../src/DownloadResult.php';
 require_once $base_path . '/../src/Exceptions/CacheNotWriteableException.php';
 require_once $base_path . '/../src/Exceptions/ConnectionErrorException.php';
+require_once $base_path . '/../src/IDataDownloader.php';
+require_once $base_path . '/../src/DataDownloaders/FgcDownloader.php';
+require_once $base_path . '/../src/DataDownloaders/curlDownloader.php';
 
 
 $downloader = new SimpleCachedDownloader($cache_dir);
 
 try {
-    $result = $downloader->download('https://github.com/martyd420/SimpleCachedDownloader');
+    $result = $downloader->download('https://www.pcdr.cz', 0);
 } catch (ConnectionErrorException $e) {
     pln('ConnectionErrorException: ' . $e->getMessage());
     $result = null;
@@ -27,10 +30,10 @@ try {
 }
 
 
-pln ('Downloaded ' . round(strlen($result) / 1024, 1) . ' KB');
+pln ('Downloaded ' . round(strlen($result) / 1024, 2) . ' KB');
 
 pln('Headers: ');
-print_r($result->getHeaders());
+echo $result->getHeaders();
 
 
 
