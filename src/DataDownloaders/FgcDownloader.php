@@ -6,7 +6,6 @@ use Martyd420\SimpleCachedDownloader\IDataDownloader;
 
 class FgcDownloader implements IDataDownloader
 {
-    public string $test_url = 'https://www.google.com';
 
     public function download(string $url): string
     {
