@@ -15,7 +15,7 @@ class SimpleCachedDownloader
     {
         $this->cache_dir = realpath($cache_dir) . DIRECTORY_SEPARATOR;
 
-        // force require classes implements IDataDownloader (searching with get_declared_classes())
+        // force require classes, that implements IDataDownloader (for searching with get_declared_classes())
         $path = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'DataDownloaders';
         $dir = dir($path);
         while (false !== ($file = $dir->read())) {
