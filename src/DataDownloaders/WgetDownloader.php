@@ -6,7 +6,6 @@ use Martyd420\SimpleCachedDownloader\IDataDownloader;
 
 class FgcDownloader implements IDataDownloader
 {
-    public string $test_url = 'https://www.google.com';
 
     public function download(string $url): string
     {
@@ -24,8 +23,6 @@ class FgcDownloader implements IDataDownloader
         ]);
 
         $response = file_get_contents($url, false, $context);
-        if (!$response) return false;
-
         $headers = join($http_response_header, "\r\n");
 
         return $headers . "\r\n\r\n" . $response;
@@ -34,9 +31,7 @@ class FgcDownloader implements IDataDownloader
 
     public function isWorking(): bool
     {
-        if (!function_exists('file_get_contents') ||
-            !function_exists('stream_context_create') ||
-            !get_cfg_var('allow_url_fopen')) {
+        if (!function_exists('file_get_contents') || !get_cfg_var('allow_url_fopen')) {
             return false;
         } else {
             return true;
