@@ -28,6 +28,7 @@ class FgcDownloader implements IDataDownloader
         return $headers . "\r\n\r\n" . $response;
     }
 
+
     public function isWorking(): bool
     {
         if (!function_exists('file_get_contents') || !get_cfg_var('allow_url_fopen')) {

@@ -9,6 +9,7 @@ class CurlDownloader implements IDataDownloader
 
     private $curl;
 
+
     public function __construct()
     {
         $this->curl = curl_init();
@@ -18,7 +19,6 @@ class CurlDownloader implements IDataDownloader
         curl_setopt($this->curl, CURLOPT_SSL_VERIFYHOST,    false);
         curl_setopt($this->curl, CURLOPT_HEADER,            true);
     }
-
 
 
     public function download(string $url): string
@@ -32,6 +32,7 @@ class CurlDownloader implements IDataDownloader
     {
         @curl_close($this->curl);
     }
+
 
     public function isWorking(): bool
     {
