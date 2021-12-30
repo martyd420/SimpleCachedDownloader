@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUnused */
 
 namespace Martyd420\SimpleCachedDownloader\DataDownloaders;
 
@@ -21,10 +21,10 @@ class CurlDownloader implements IDataDownloader
     }
 
 
-    public function download(string $url): string
+    public function download(string $url): ?string
     {
         curl_setopt($this->curl, CURLOPT_URL, $url);
-        return curl_exec($this->curl);
+        return curl_exec($this->curl) ?: null;
     }
 
 

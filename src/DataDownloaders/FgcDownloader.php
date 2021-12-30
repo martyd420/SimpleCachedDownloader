@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUnused */
 
 namespace Martyd420\SimpleCachedDownloader\DataDownloaders;
 
@@ -7,7 +7,7 @@ use Martyd420\SimpleCachedDownloader\IDataDownloader;
 class FgcDownloader implements IDataDownloader
 {
 
-    public function download(string $url): string
+    public function download(string $url): ?string
     {
         $headers = [
             'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36',
@@ -23,7 +23,7 @@ class FgcDownloader implements IDataDownloader
         ]);
 
         $response = file_get_contents($url, false, $context);
-        if (!$response) return false;
+        if (!$response) return null;
 
         $headers = join($http_response_header, "\r\n");
 

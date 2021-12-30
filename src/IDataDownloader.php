@@ -7,7 +7,7 @@ interface IDataDownloader {
     /**
      * must return data with headers
     */
-    public function download(string $url): string;
+    public function download(string $url): ?string;
 
     /**
      * selftest
